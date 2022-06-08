@@ -1,0 +1,77 @@
+---
+title: "Datos de Felinos de Costa Rica"
+author: "Mariano Arroyo"
+date: '2022-06-08'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Preparativos
+
+```{r carga-paquetes, message=FALSE}
+
+library(dplyr)
+
+library(ggplot2)
+
+library(plotly)
+
+library(sf)
+
+library(leaflet)
+
+library(DT)
+
+```
+
+```{r}
+felinos <-
+  st_read(
+    "C:/Users/C10718/felinos.csv",
+    options = c(
+      "X_POSSIBLE_NAMES=decimalLongitude", 
+      "Y_POSSIBLE_NAMES=decimalLatitude"   
+    ),
+    quiet = TRUE
+  )
+
+```
+# Tabla
+
+```{r tabla}
+# Visualización de datos de felinos en forma tabular 
+felinos %>%
+  select(species,
+         eventDate,
+         stateProvince,
+         locality,
+         decimalLongitude,
+         decimalLatitude) %>%
+  st_drop_geometry() %>%
+  datatable(
+    colnames = c(
+      "Especie",
+      "Fecha",
+      "Provincia",
+      "Localidad",
+      "Longitud",
+      "Latitud"
+    ),
+    options = list(
+      pageLength = 5,
+      language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')
+    )
+  )
+
+```
+
+
+
+
+
+
+
+# Gráfico 
